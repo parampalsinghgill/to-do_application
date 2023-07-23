@@ -15,9 +15,6 @@ class TaskList:
     def modify_task(self, task_id, task_name):
         """Modify and existing task."""
         self.__find_task(task_id).task_name = task_name
-        print("\nModified task with id: {}".format(task_id))
-        print("Updated tasks list as follows:")
-        self.print_tasks()
 
     def update_task_status(self, task_id, status):
         """Update the status of the task"""
@@ -35,16 +32,13 @@ class TaskList:
     def delete_task(self, task_id):
         """Delete and existing task"""
         self.task_list.remove(self.__find_task(task_id))
-        print("\nDeleted task with id: {}".format(task_id))
-        print("Updated tasks list as follows:")
-        self.print_tasks()
 
     def __find_task(self, task_id):
         """Find a task based on id"""
         return_task = None
 
         for task in self.task_list:
-            if task_id == task.id:
+            if str(task_id) == str(task.id):
                 return_task = task
                 break
             else:
@@ -55,8 +49,7 @@ class TaskList:
     def search(self, filter_str):
         """Search the task in task list using input filter"""
         tasks = [task for task in self.task_list if task.match(filter_str)]
-        print("\nPrinting searched tasks:")
-        self.print_tasks(tasks)
+        return tasks
 
     def print_tasks(self, tasks=None):
         """Prints all tasks on the screen."""
@@ -65,5 +58,9 @@ class TaskList:
         else:
             tasks_to_print = tasks
 
-        for task in tasks_to_print:
-            print("ID: {}, {}, Completion Date: {}".format(task.id, task.task_name, task.completion_date))
+        if not tasks_to_print or tasks_to_print is None:
+            print("No current tasks.")
+        else:
+            for task in tasks_to_print:
+                print("ID: {}, {}, Completion Date: {}".format(task.id, task.task_name, task.completion_date))
+        print()

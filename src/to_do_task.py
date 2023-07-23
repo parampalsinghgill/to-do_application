@@ -17,7 +17,7 @@ class ToDoTask:
     def __init__(self, task_name, days_to_complete):
         self.task_name = task_name
         self.creation_date = date.today()
-        self.completion_date = date.today() + timedelta(days=days_to_complete)
+        self.completion_date = date.today() + timedelta(days=int(days_to_complete))
         self.status = Status.NEW
 
         global task_id
