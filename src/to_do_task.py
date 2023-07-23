@@ -25,5 +25,5 @@ class ToDoTask:
         self.id = task_id
 
     def match(self, filter_string):
-        """Check if the task matches the filter text"""
+        """Check if the task matches the filter text and return a boolean."""
         return str(filter_string) in str(self.task_name)

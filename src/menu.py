@@ -23,16 +23,17 @@ class Menu:
             "6": "Exit"
         }
 
-    def display_menu(self):
+    @staticmethod
+    def print_options_in_dict(dict_to_print):
         """Display the menu options and ask user choice"""
-        print("********* Menu *********")
-        for item in self.print_menu.items():
+        for item in dict_to_print.items():
             print("{} : {}".format(item[0], item[1]))
         print()
 
     def get_input_from_user(self):
         """Show options and ask user for the input. Call the appropriate method accordingly."""
-        self.display_menu()
+        print("********* Menu *********")
+        self.print_options_in_dict(self.print_menu)
         choice = input("Choose your option: ")
         if choice in self.menu.keys():
             self.menu[choice]()
@@ -51,6 +52,16 @@ class Menu:
 
     def modify_task(self):
         """Action to modify the task"""
+        modify_options = {
+            "a": "Update task name",
+            "b": "Update task Status",
+#            "c": "Update completion date"
+        }
+        modify_actions = {
+            "a": self.__update_task_name,
+            "b": self.__update_task_status,
+#            "c": self.__update_task_completion_date
+        }
         self.__highlight_input_option(self.print_menu["2"])
 
         # display all tasks first to show which ones exist.
@@ -58,10 +69,24 @@ class Menu:
         self.tl.print_tasks()
 
         task_id = input("Enter the task id to modify: ")
-        task_name = input("Enter updated task name: ")
 
-        self.tl.modify_task(task_id, task_name)
+        self.print_options_in_dict(modify_options)
+
+        update_choice = input("Choose the task value to update: ")
+
+        if update_choice in modify_actions.keys():
+            new_value = input("Enter the new value: ")
+            modify_actions[update_choice](task_id, new_value)
+
         print("Task ID '{}' modified successfully.\n".format(task_id))
+
+    def __update_task_name(self, task_id, task_name):
+        """Update the name of the task"""
+        self.tl.modify_task(task_id, task_name)
+
+    def __update_task_status(self, task_id, task_status):
+        """Update the status of the task"""
+        self.tl.modify_task(task_id, task_status)
 
     def delete_task(self):
         """Action to delete the task"""

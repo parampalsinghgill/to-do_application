@@ -12,11 +12,19 @@ class TaskList:
         """Create a new task with name and number of days to complete."""
         self.task_list.append(ToDoTask(task_name, days_to_complete))
 
-    def modify_task(self, task_id, task_name):
+    def modify_task(self, task_id, task_name=None, task_status=None, task_completion_date=None):
         """Modify and existing task."""
-        self.__find_task(task_id).task_name = task_name
+        if task_name is not None:
+            self.__find_task(task_id).task_name = task_name
 
-    def update_task_status(self, task_id, status):
+        if task_status is not None:
+            self.__update_task_status(task_id, task_status)
+
+        # ToDo
+        # if task_completion_date is not None:
+        #     self.__find_task(task_id).completion_Date = task_completion_date
+
+    def __update_task_status(self, task_id, status):
         """Update the status of the task"""
         if "in_progress" in status:
             status = Status.IN_PROGRESS
@@ -62,5 +70,6 @@ class TaskList:
             print("No current tasks.")
         else:
             for task in tasks_to_print:
-                print("ID: {}, {}, Completion Date: {}".format(task.id, task.task_name, task.completion_date))
+                print("ID: {}, {}, \tCompleted by: {}, \tStatus: {}".format(task.id, task.task_name,
+                                                                               task.completion_date, task.status.name))
         print()
