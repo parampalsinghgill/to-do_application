@@ -7,17 +7,21 @@ class Menu:
     def __init__(self):
         self.tl = TaskList()
         self.menu = {
-            "1": "create_task",
-            "2": "modify_task",
-            "3": "delete_task",
-            "4": "search_task",
-            "5": "quit"
+            "1": self.create_task,
+            "2": self.modify_task,
+            "3": self.delete_task,
+            "4": self.search_task,
+            "5": quit
         }
 
     def display_menu(self):
         """Display the menu options and ask user choice"""
-        print(self.menu)
+        for item in self.menu:
+            print(item)
 
+    def get_input_from_user(self):
+        """Show options and ask user for the input. Call the appropriate method accordingly."""
+        self. display_menu()
         choice = input("Choose your option: ")
         action = self.menu[choice]
         action()
@@ -48,7 +52,7 @@ class Menu:
 
         self.tl.delete_task(task_id)
 
-    def search_tasks(self):
+    def search_task(self):
         """Action to search the tasks"""
         search_string = input("Enter the string to search in tasks")
 
