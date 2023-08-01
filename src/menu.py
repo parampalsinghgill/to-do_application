@@ -1,4 +1,4 @@
-from task_list import TaskList
+from tasks.task_list import TaskList
 
 
 class Menu:
@@ -55,12 +55,12 @@ class Menu:
         modify_options = {
             "a": "Update task name",
             "b": "Update task Status",
-#            "c": "Update completion date"
+            "c": "Update completion date"
         }
         modify_actions = {
             "a": self.__update_task_name,
             "b": self.__update_task_status,
-#            "c": self.__update_task_completion_date
+            "c": self.__update_task_completion_date
         }
         self.__highlight_input_option(self.print_menu["2"])
 
@@ -82,11 +82,19 @@ class Menu:
 
     def __update_task_name(self, task_id, task_name):
         """Update the name of the task"""
-        self.tl.modify_task(task_id, task_name)
+        self.tl.modify_task(task_id, task_name=task_name)
 
     def __update_task_status(self, task_id, task_status):
         """Update the status of the task"""
-        self.tl.modify_task(task_id, task_status)
+        self.tl.modify_task(task_id, task_status=task_status)
+
+    def __update_task_completion_date(self, task_id, new_date):
+        """
+        Update the task completion date
+        @param task_id: the unique id of the task
+        @param new_date: the new date of the task
+        """
+        self.tl.modify_task(task_id, task_completion_date=new_date)
 
     def delete_task(self):
         """Action to delete the task"""

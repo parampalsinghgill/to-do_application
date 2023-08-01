@@ -1,5 +1,6 @@
-from to_do_task import ToDoTask
-from to_do_task import Status
+from .to_do_task import ToDoTask
+from .to_do_task import Status
+from exceptions import InvalidStatusError, InvalidDateError
 
 
 class TaskList:
@@ -17,25 +18,18 @@ class TaskList:
         if task_name is not None:
             self.__find_task(task_id).task_name = task_name
 
-        if task_status is not None:
-            self.__update_task_status(task_id, task_status)
+        # TODO: handle if __find_task return None
+        try:
+            if task_status is not None:
+                self.__find_task(task_id).status = task_status
+        except InvalidStatusError as e:
+            print(e)
 
-        # ToDo
-        # if task_completion_date is not None:
-        #     self.__find_task(task_id).completion_Date = task_completion_date
-
-    def __update_task_status(self, task_id, status):
-        """Update the status of the task"""
-        if "in_progress" in status:
-            status = Status.IN_PROGRESS
-        elif "done" in status:
-            status = Status.DONE
-        else:
-            status = status.NEW
-
-        for task in self.task_list:
-            if task_id == task.id:
-                task.status = status
+        try:
+            if task_completion_date is not None:
+                self.__find_task(task_id).completion_Date = task_completion_date
+        except InvalidDateError as e:
+            print(e)
 
     def delete_task(self, task_id):
         """Delete and existing task"""
@@ -46,7 +40,7 @@ class TaskList:
         return_task = None
 
         for task in self.task_list:
-            if str(task_id) == str(task.id):
+            if str(task_id) == str(task.task_id):
                 return_task = task
                 break
             else:
@@ -70,6 +64,6 @@ class TaskList:
             print("No current tasks.")
         else:
             for task in tasks_to_print:
-                print("ID: {}, {}, \tCompleted by: {}, \tStatus: {}".format(task.id, task.task_name,
-                                                                               task.completion_date, task.status.name))
+                print("ID: {}, {}, \tCompleted by: {}, \tStatus: {}".format(task.task_id, task.task_name,
+                                                                            task.completion_date, task.status.name))
         print()
