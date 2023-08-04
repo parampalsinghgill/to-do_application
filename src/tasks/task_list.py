@@ -1,5 +1,4 @@
 from .to_do_task import ToDoTask
-from .to_do_task import Status
 from exceptions import InvalidStatusError, InvalidDateError
 
 
