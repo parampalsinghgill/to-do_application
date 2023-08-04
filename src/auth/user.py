@@ -9,7 +9,7 @@ class User:
     """Creates a user account"""
 
     __length_of_username = 5
-    __length_of_password = 8
+    __length_of_password = 5
     __regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 
     def __init__(self, username, email, password):

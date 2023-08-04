@@ -1,4 +1,5 @@
 from tasks.task_list import TaskList
+from auth import Authenticator
 
 
 def execute():
@@ -33,9 +34,18 @@ def outer(x):
         return x + y
     return inner
 
+def test_auth():
+    auth = Authenticator()
+    auth.signup("parampal", "psg@gmail.com", "abc@1")
+    auth.signup("gill", "psg@gmail.com", "abc@1")
+
+    auth.login("parampal", "abc@1")
+
+
 
 if __name__ == "__main__":
     # execute()
-    zee()
+    # zee()
     # print(outer(5)(6))
+    test_auth()
 
