@@ -32,6 +32,7 @@ class Authenticator:
         if username in self.users:
             if self.users[username].match(password):
                 self.users[username].is_logged_in = True
+                return True
             else:
                 raise WrongPasswordError("The password does not match.")
         else:
