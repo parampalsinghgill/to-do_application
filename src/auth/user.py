@@ -2,13 +2,12 @@ import re
 import hashlib
 from exceptions.exceptions_auth import InvalidUsernameError, InvalidEmailError, InvalidPasswordError
 
-__user_id = 0
-
 
 class User:
     """Creates a user account"""
 
-    __length_of_username = 5
+    user_id = 1
+    __length_of_username = 3
     __length_of_password = 5
     __regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 
@@ -19,9 +18,8 @@ class User:
         self.password = self.__set_encrypted_password(password)
         self.is_logged_in = False
 
-        global __user_id
-        self.__id = __user_id
-        __user_id += 1
+        self.__id = User.user_id
+        User.user_id += 1
 
     @property
     def id(self):
@@ -36,7 +34,7 @@ class User:
     @username.setter
     def username(self, val):
         """Set the username"""
-        if val is str and len(val) >= User.__length_of_username:
+        if type(val) == str and len(val) >= User.__length_of_username:
             self.__username = val
         else:
             raise InvalidUsernameError("Username is not valid, must be >= ", User.__length_of_username, " characters")
