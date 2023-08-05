@@ -1,6 +1,7 @@
 import re
 import hashlib
 from exceptions.exceptions_auth import InvalidUsernameError, InvalidEmailError, InvalidPasswordError
+from tasks import TaskList
 
 
 class User:
@@ -20,6 +21,8 @@ class User:
 
         self.__id = User.user_id
         User.user_id += 1
+
+        self.tasks = TaskList()
 
     @property
     def id(self):
