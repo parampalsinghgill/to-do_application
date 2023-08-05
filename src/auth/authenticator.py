@@ -20,7 +20,7 @@ class Authenticator:
         try:
             self.users[username] = User(username, email, password)
         except AuthException as e:
-            print(e)
+            raise e
 
     def login(self, username, password):
         """
