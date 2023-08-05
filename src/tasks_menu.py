@@ -1,4 +1,5 @@
 from tasks.task_list import TaskList
+from common import print_options_in_dict, highlight_input_option
 
 
 class TasksMenu:
@@ -23,17 +24,10 @@ class TasksMenu:
             "6": "Exit"
         }
 
-    @staticmethod
-    def print_options_in_dict(dict_to_print):
-        """Display the menu options and ask user choice"""
-        for item in dict_to_print.items():
-            print("{} : {}".format(item[0], item[1]))
-        print()
-
     def get_input_from_user(self):
         """Show options and ask user for the input. Call the appropriate method accordingly."""
         print("********* Menu *********")
-        self.print_options_in_dict(self.show_task_menu_options)
+        print_options_in_dict(self.show_task_menu_options)
         choice = input("Choose your option: ")
         if choice in self.task_menu_options.keys():
             self.task_menu_options[choice]()
@@ -98,7 +92,7 @@ class TasksMenu:
 
     def delete_task(self):
         """Action to delete the task"""
-        self.__highlight_input_option(self.show_task_menu_options["3"])
+        highlight_input_option(self.show_task_menu_options["3"])
         # display all tasks first to show which ones exist.
         self.tl.print_tasks()
 
@@ -109,7 +103,7 @@ class TasksMenu:
 
     def search_task(self):
         """Action to search the tasks"""
-        self.__highlight_input_option(self.show_task_menu_options["4"])
+        highlight_input_option(self.show_task_menu_options["4"])
         search_string = input("Enter the string to search in tasks: ")
 
         searched_tasks = self.tl.search(search_string)
@@ -117,13 +111,8 @@ class TasksMenu:
 
     def print_tasks(self):
         """Prints all the tasks in the task list"""
-        self.__highlight_input_option(self.show_task_menu_options["5"])
+        highlight_input_option(self.show_task_menu_options["5"])
         self.tl.print_tasks()
-
-    @staticmethod
-    def __highlight_input_option(option):
-        """Highlights the option user chose and what he is doing currently"""
-        print("\n######### Entered option to '{}' #########".format(option.lower()))
 
     def run(self):
         """RUns the app until user chooses to quit."""
