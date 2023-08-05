@@ -14,14 +14,10 @@ class User:
 
     def __init__(self, username, email, password):
         """Initiates the user account with username, email and password"""
-        self.__username = None
-        self.__email = None
-        self.__password = None
+        self.username = username
+        self.email = email
+        self.password = self.__set_encrypted_password(password)
         self.is_logged_in = False
-
-        self.username(username)
-        self.email(email)
-        self.__set_encrypted_password(password)
 
         global __user_id
         self.__id = __user_id
