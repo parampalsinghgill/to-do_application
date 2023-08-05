@@ -1,12 +1,12 @@
 from tasks.task_list import TaskList
 
 
-class Menu:
-    """Creates a command line interactive tool for users"""
+class TasksMenu:
+    """Creates a command line interactive tool for user to manage tasks"""
 
     def __init__(self):
         self.tl = TaskList()
-        self.menu = {
+        self.task_menu_options = {
             "1": self.create_task,
             "2": self.modify_task,
             "3": self.delete_task,
@@ -14,7 +14,7 @@ class Menu:
             "5": self.print_tasks,
             "6": quit
         }
-        self.print_menu = {
+        self.show_task_menu_options = {
             "1": "Create a new task",
             "2": "Modify an existing task",
             "3": "Delete an existing task",
@@ -33,16 +33,16 @@ class Menu:
     def get_input_from_user(self):
         """Show options and ask user for the input. Call the appropriate method accordingly."""
         print("********* Menu *********")
-        self.print_options_in_dict(self.print_menu)
+        self.print_options_in_dict(self.show_task_menu_options)
         choice = input("Choose your option: ")
-        if choice in self.menu.keys():
-            self.menu[choice]()
+        if choice in self.task_menu_options.keys():
+            self.task_menu_options[choice]()
         else:
             print("Invalid option\n")
 
     def create_task(self):
         """Action on create task option"""
-        self.__highlight_input_option(self.print_menu["1"])
+        self.__highlight_input_option(self.show_task_menu_options["1"])
 
         task_name = input("Enter task: ")
         days_to_complete = input("Enter number of days to complete: ")
@@ -62,7 +62,7 @@ class Menu:
             "b": self.__update_task_status,
             "c": self.__update_task_completion_date
         }
-        self.__highlight_input_option(self.print_menu["2"])
+        self.__highlight_input_option(self.show_task_menu_options["2"])
 
         # display all tasks first to show which ones exist.
         print("The following is the list of all existing tasks:")
@@ -98,7 +98,7 @@ class Menu:
 
     def delete_task(self):
         """Action to delete the task"""
-        self.__highlight_input_option(self.print_menu["3"])
+        self.__highlight_input_option(self.show_task_menu_options["3"])
         # display all tasks first to show which ones exist.
         self.tl.print_tasks()
 
@@ -109,7 +109,7 @@ class Menu:
 
     def search_task(self):
         """Action to search the tasks"""
-        self.__highlight_input_option(self.print_menu["4"])
+        self.__highlight_input_option(self.show_task_menu_options["4"])
         search_string = input("Enter the string to search in tasks: ")
 
         searched_tasks = self.tl.search(search_string)
@@ -117,7 +117,7 @@ class Menu:
 
     def print_tasks(self):
         """Prints all the tasks in the task list"""
-        self.__highlight_input_option(self.print_menu["5"])
+        self.__highlight_input_option(self.show_task_menu_options["5"])
         self.tl.print_tasks()
 
     @staticmethod
@@ -133,5 +133,5 @@ class Menu:
 
 
 if __name__ == "__main__":
-    menu = Menu()
+    menu = TasksMenu()
     menu.run()
