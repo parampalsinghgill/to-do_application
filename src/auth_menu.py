@@ -31,9 +31,8 @@ class AuthMenu:
         """Sign up a new user"""
         highlight_input_option(self.print_auth_menu_options["2"])
 
-        username, email = AuthMenu.__ask_for_username_and_email()
-        password = pwinput(prompt="Choose a password: ", mask='*')
-        # password = getpass("Choose a password: ")
+        email = AuthMenu.__ask_for_email()
+        username, password = AuthMenu.__ask_for_username_and_password()
 
         try:
             self.authenticator.signup(username, email, password)
@@ -46,10 +45,10 @@ class AuthMenu:
 
     def login(self):
         """Logs in existing user"""
-        username, email = AuthMenu.__ask_for_username_and_email()
+        username, password = AuthMenu.__ask_for_username_and_password()
 
         try:
-            self.authenticator.login(username, email)
+            self.authenticator.login(username, password)
             print("Login successful.")
 
             # user logged in, let user access his to do list
@@ -60,11 +59,19 @@ class AuthMenu:
             print(Fore.RED + "Log in error: ", ex)
 
     @staticmethod
-    def __ask_for_username_and_email():
-        """Ask username and email from the user"""
+    def __ask_for_username_and_password():
+        """Ask username and password from the user"""
         username = input("Please provide a username: ")
+        password = pwinput(prompt="Choose a password: ", mask='*')
+        # password = getpass("Choose a password: ")
+
+        return username, password
+
+    @staticmethod
+    def __ask_for_email():
+        """Ask email from the user"""
         email = input("Please provide an email address: ")
-        return username, email
+        return email
 
     def run(self):
         """Run the command line options"""
