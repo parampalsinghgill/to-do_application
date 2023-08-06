@@ -16,7 +16,7 @@ class User:
         """Initiates the user account with username, email and password"""
         self.username = username
         self.email = email
-        self.password = self.__set_encrypted_password(password)
+        self.__password = self.__encrypt_password(password)
         self.is_logged_in = False
 
         self.__id = User.user_id
@@ -55,10 +55,10 @@ class User:
         else:
             raise InvalidEmailError("Email is not valid, must be username@domain.com")
 
-    def __set_encrypted_password(self, password):
+    def __encrypt_password(self, password):
         """Sets the user password and checking the length and encrypting"""
         if len(password) >= User.__length_of_password:
-            self.__password = self.__encrypt_string(self.username + password)
+            return self.__encrypt_string(self.username + password)
         else:
             raise InvalidPasswordError("Password must be at least ", User.__length_of_password, " characters")
 

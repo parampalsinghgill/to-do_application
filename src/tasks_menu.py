@@ -1,5 +1,6 @@
 from tasks.task_list import TaskList
 from common import print_options_in_dict, highlight_input_option
+from colorama import Fore
 
 
 class TasksMenu:
@@ -21,18 +22,8 @@ class TasksMenu:
             "3": "Delete an existing task",
             "4": "Search existing tasks",
             "5": "Show all existing tasks",
-            "6": "Exit"
+            "6": "Log off"
         }
-
-    def get_input_from_user(self):
-        """Show options and ask user for the input. Call the appropriate method accordingly."""
-        print("********* Menu *********")
-        print_options_in_dict(self.show_task_menu_options)
-        choice = input("Choose your option: ")
-        if choice in self.task_menu_options.keys():
-            self.task_menu_options[choice]()
-        else:
-            print("Invalid option\n")
 
     def create_task(self):
         """Action on create task option"""
@@ -118,7 +109,16 @@ class TasksMenu:
         """RUns the app until user chooses to quit."""
         print("\nWelcome to To-Do List. Follow the menu options to navigate.\n")
         while True:
-            self.get_input_from_user()
+            print("********* Menu *********")
+            print_options_in_dict(self.show_task_menu_options)
+            choice = input("Choose your option: ")
+
+            if choice == '6':
+                break
+            elif choice in self.task_menu_options.keys():
+                self.task_menu_options[choice]()
+            else:
+                print(Fore.RED + "Invalid option\n")
 
 
 if __name__ == "__main__":

@@ -4,6 +4,9 @@ from getpass import getpass
 from auth import Authenticator
 from exceptions import AuthException
 from tasks_menu import TasksMenu
+from colorama import Fore, init
+
+init(autoreset=True)
 
 
 class AuthMenu:
@@ -38,8 +41,8 @@ class AuthMenu:
             user_input = input()
             if user_input == 'y':
                 self.login()
-        except AuthException as e:
-            print("Sign up error: ", e)
+        except AuthException as ex:
+            print(Fore.RED + "Sign up error: ", ex)
 
     def login(self):
         """Logs in existing user"""
@@ -53,8 +56,8 @@ class AuthMenu:
             user = self.authenticator.users["username"]
             task_menu = TasksMenu(user.tasks)
             task_menu.run()
-        except AuthException as e:
-            print("Log in error: ", e)
+        except AuthException as ex:
+            print(Fore.RED + "Log in error: ", ex)
 
     @staticmethod
     def __ask_for_username_and_email():
@@ -65,7 +68,16 @@ class AuthMenu:
 
     def run(self):
         """Run the command line options"""
-        print("Welcome to ToDo app.")
+        length_of_asterisk = 37
+        welcome_msg = " Welcome to ToDo app "
+        length_of_asterisk_around_welcome_msg = int((length_of_asterisk-len(welcome_msg))/2)
+
+        print("*" * length_of_asterisk)
+        print("*" * length_of_asterisk_around_welcome_msg +
+              " Welcome to ToDo app " +
+              "*" * length_of_asterisk_around_welcome_msg)
+        print("*" * length_of_asterisk)
+
         while True:
             print_options_in_dict(self.print_auth_menu_options)
             user_input = input("Choose an option: ")
@@ -74,10 +86,13 @@ class AuthMenu:
                 action = self.auth_menu_options[user_input]
                 action()
             except KeyError as e:
-                print("Invalid Option\n")
+                print(Fore.RED + "Invalid Option\n")
 
 
 if __name__ == "__main__":
     app = AuthMenu()
-    app.run()
+    try:
+        app.run()
+    except SystemExit as e:
+        print(e)
 
