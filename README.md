@@ -1,2 +1,5 @@
 # to-do_application
-Repo for personal projects
+Working to-do custom application. Run menu.py for the commandline options tool.
+
+To Do:
+Add an option to update the completion date of the tasks.

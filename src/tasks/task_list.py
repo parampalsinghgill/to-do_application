@@ -1,5 +1,5 @@
-from to_do_task import ToDoTask
-from to_do_task import Status
+from .to_do_task import ToDoTask
+from exceptions import InvalidStatusError, InvalidDateError, InvalidTaskError
 
 
 class TaskList:
@@ -12,22 +12,27 @@ class TaskList:
         """Create a new task with name and number of days to complete."""
         self.task_list.append(ToDoTask(task_name, days_to_complete))
 
-    def modify_task(self, task_id, task_name):
+    def modify_task(self, task_id, task_name=None, task_status=None, task_completion_date=None):
         """Modify and existing task."""
-        self.__find_task(task_id).task_name = task_name
+        task = self.__find_task(task_id).task_name = task_name
 
-    def update_task_status(self, task_id, status):
-        """Update the status of the task"""
-        if "in_progress" in status:
-            status = Status.IN_PROGRESS
-        elif "done" in status:
-            status = Status.DONE
-        else:
-            status = status.NEW
+        if task is None:
+            raise InvalidTaskError("Task not sound in the task list.")
 
-        for task in self.task_list:
-            if task_id == task.id:
-                task.status = status
+        if task_name is not None:
+            task.task_name = task_name
+
+        if task_status is not None:
+            try:
+                task.status = task_status
+            except InvalidStatusError as e:
+                raise e
+
+        if task_completion_date is not None:
+            try:
+                self.__find_task(task_id).completion_Date = task_completion_date
+            except InvalidDateError as e:
+                raise e
 
     def delete_task(self, task_id):
         """Delete and existing task"""
@@ -38,7 +43,7 @@ class TaskList:
         return_task = None
 
         for task in self.task_list:
-            if str(task_id) == str(task.id):
+            if str(task_id) == str(task.task_id):
                 return_task = task
                 break
             else:
@@ -62,5 +67,6 @@ class TaskList:
             print("No current tasks.")
         else:
             for task in tasks_to_print:
-                print("ID: {}, {}, Completion Date: {}".format(task.id, task.task_name, task.completion_date))
+                print("ID: {}, {}, \tCompleted by: {}, \tStatus: {}".format(task.task_id, task.task_name,
+                                                                            task.completion_date, task.status.name))
         print()
