@@ -52,7 +52,7 @@ class AuthMenu:
             print("Login successful.")
 
             # user logged in, let user access his to do list
-            user = self.authenticator.users["username"]
+            user = self.authenticator.users[username]
             task_menu = TasksMenu(user.tasks)
             task_menu.run()
         except AuthException as ex:
