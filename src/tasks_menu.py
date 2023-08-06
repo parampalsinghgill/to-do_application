@@ -114,6 +114,7 @@ class TasksMenu:
             choice = input("Choose your option: ")
 
             if choice == '6':
+                print("Logging off... Bye.")
                 break
             elif choice in self.task_menu_options.keys():
                 self.task_menu_options[choice]()

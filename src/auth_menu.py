@@ -62,7 +62,7 @@ class AuthMenu:
     def __ask_for_username_and_password():
         """Ask username and password from the user"""
         username = input("Please provide a username: ")
-        password = pwinput(prompt="Choose a password: ", mask='*')
+        password = pwinput(prompt="Enter a password: ", mask='*')
         # password = getpass("Choose a password: ")
 
         return username, password

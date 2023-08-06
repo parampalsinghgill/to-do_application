@@ -3,11 +3,10 @@ import hashlib
 from exceptions.exceptions_auth import InvalidUsernameError, InvalidEmailError, InvalidPasswordError
 from tasks import TaskList
 
+user_id = 1
 
 class User:
     """Creates a user account"""
-
-    user_id = 1
     __length_of_username = 3
     __length_of_password = 5
     __regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -19,8 +18,9 @@ class User:
         self.__password = self.__encrypt_password(password)
         self.is_logged_in = False
 
-        self.__id = User.user_id
-        User.user_id += 1
+        global user_id
+        self.__id = user_id
+        user_id += 1
 
         self.tasks = TaskList()
 
