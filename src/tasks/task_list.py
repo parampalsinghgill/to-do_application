@@ -1,5 +1,5 @@
 from .to_do_task import ToDoTask
-from exceptions import InvalidStatusError, InvalidDateError
+from exceptions import InvalidStatusError, InvalidDateError, InvalidTaskError
 
 
 class TaskList:
@@ -14,21 +14,25 @@ class TaskList:
 
     def modify_task(self, task_id, task_name=None, task_status=None, task_completion_date=None):
         """Modify and existing task."""
+        task = self.__find_task(task_id).task_name = task_name
+
+        if task is None:
+            raise InvalidTaskError("Task not sound in the task list.")
+
         if task_name is not None:
-            self.__find_task(task_id).task_name = task_name
+            task.task_name = task_name
 
-        # TODO: handle if __find_task return None
-        try:
-            if task_status is not None:
-                self.__find_task(task_id).status = task_status
-        except InvalidStatusError as e:
-            print(e)
+        if task_status is not None:
+            try:
+                task.status = task_status
+            except InvalidStatusError as e:
+                raise e
 
-        try:
-            if task_completion_date is not None:
+        if task_completion_date is not None:
+            try:
                 self.__find_task(task_id).completion_Date = task_completion_date
-        except InvalidDateError as e:
-            print(e)
+            except InvalidDateError as e:
+                raise e
 
     def delete_task(self, task_id):
         """Delete and existing task"""

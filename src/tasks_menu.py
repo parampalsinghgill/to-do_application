@@ -5,8 +5,8 @@ from common import print_options_in_dict, highlight_input_option
 class TasksMenu:
     """Creates a command line interactive tool for user to manage tasks"""
 
-    def __init__(self):
-        self.tl = TaskList()
+    def __init__(self, tl):
+        self.tl = tl
         self.task_menu_options = {
             "1": self.create_task,
             "2": self.modify_task,
@@ -36,7 +36,7 @@ class TasksMenu:
 
     def create_task(self):
         """Action on create task option"""
-        self.__highlight_input_option(self.show_task_menu_options["1"])
+        highlight_input_option(self.show_task_menu_options["1"])
 
         task_name = input("Enter task: ")
         days_to_complete = input("Enter number of days to complete: ")
@@ -56,7 +56,7 @@ class TasksMenu:
             "b": self.__update_task_status,
             "c": self.__update_task_completion_date
         }
-        self.__highlight_input_option(self.show_task_menu_options["2"])
+        highlight_input_option(self.show_task_menu_options["2"])
 
         # display all tasks first to show which ones exist.
         print("The following is the list of all existing tasks:")
@@ -64,7 +64,7 @@ class TasksMenu:
 
         task_id = input("Enter the task id to modify: ")
 
-        self.print_options_in_dict(modify_options)
+        print_options_in_dict(modify_options)
 
         update_choice = input("Choose the task value to update: ")
 
@@ -116,11 +116,12 @@ class TasksMenu:
 
     def run(self):
         """RUns the app until user chooses to quit."""
-        print("\nWelcome to To-Do application. Follow the menu options to navigate.\n")
+        print("\nWelcome to To-Do List. Follow the menu options to navigate.\n")
         while True:
             self.get_input_from_user()
 
 
 if __name__ == "__main__":
-    menu = TasksMenu()
+    task_list = TaskList()
+    menu = TasksMenu(task_list)
     menu.run()

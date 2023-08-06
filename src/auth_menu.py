@@ -3,6 +3,7 @@ from pwinput import pwinput
 from getpass import getpass
 from auth import Authenticator
 from exceptions import AuthException
+from tasks_menu import TasksMenu
 
 
 class AuthMenu:
@@ -47,6 +48,11 @@ class AuthMenu:
         try:
             self.authenticator.login(username, email)
             print("Login successful.")
+
+            # user logged in, let user access his to do list
+            user = self.authenticator.users["username"]
+            task_menu = TasksMenu(user.tasks)
+            task_menu.run()
         except AuthException as e:
             print("Log in error: ", e)
 
