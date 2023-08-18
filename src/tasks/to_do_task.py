@@ -1,15 +1,9 @@
 from datetime import datetime, date, timedelta
-from enum import Enum
+from status import Status
 from exceptions import InvalidStatusError, InvalidDateError
 
+
 task_id = 0
-
-
-class Status(Enum):
-    """Manage the status of the task object"""
-    NEW = 0
-    IN_PROGRESS = 1
-    DONE = 2
 
 
 class ToDoTask:
@@ -72,9 +66,9 @@ class ToDoTask:
 
     @status.setter
     def status(self, val):
-        valid_values = [item.value for item in Status]
+        valid_values = [item.value for item in Status.get_class_attribute_list()]
 
         if val in valid_values:
-            self.status = val
+            self.__status = Status.get_member(val)
         else:
             raise InvalidStatusError("Status for ", self.__id, " was not updated due to invalid status.")

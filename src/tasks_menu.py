@@ -55,6 +55,8 @@ class TasksMenu:
 
         task_id = input("Enter the task id to modify: ")
 
+        # Todo check if task id is valid
+
         print_options_in_dict(modify_options)
 
         update_choice = input("Choose the task value to update: ")
@@ -62,6 +64,9 @@ class TasksMenu:
         if update_choice in modify_actions.keys():
             new_value = input("Enter the new value: ")
             modify_actions[update_choice](task_id, new_value)
+        else:
+            # Todo if update choice is not valid
+            pass
 
         print("Task ID '{}' modified successfully.\n".format(task_id))
 
