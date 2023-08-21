@@ -1,4 +1,4 @@
-from src.tasks.to_do_task import ToDoTask
+from .to_do_task import ToDoTask
 from exceptions import InvalidStatusError, InvalidDateError, InvalidTaskError
 
 
