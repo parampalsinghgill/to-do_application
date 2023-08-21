@@ -37,41 +37,43 @@ class TasksMenu:
         print("A task '{}' has been created and added to To-Do list.\n".format(task_name))
 
     def modify_task(self):
-        """Action to modify the task"""
-        modify_options = {
-            "a": "Update task name",
-            "b": "Update task Status",
-            "c": "Update completion date"
-        }
-        modify_actions = {
-            "a": self.__update_task_name,
-            "b": self.__update_task_status,
-            "c": self.__update_task_completion_date
-        }
-        highlight_input_option(self.show_task_menu_options["2"])
+        """Action to modify the task if task list is not empty"""
+        if self.tl.tasks:
+            modify_options = {
+                "a": "Update task name",
+                "b": "Update task Status",
+                "c": "Update completion date"
+            }
+            modify_actions = {
+                "a": self.__update_task_name,
+                "b": self.__update_task_status,
+                "c": self.__update_task_completion_date
+            }
+            highlight_input_option(self.show_task_menu_options["2"])
 
-        # display all tasks first to show which ones exist.
-        print("The following is the list of all existing tasks:")
-        self.tl.print_tasks()
+            # display all tasks first to show which ones exist.
+            self.tl.print_tasks()
 
-        task_id = input("Enter the task id to modify: ")
+            task_id = input("Enter the task id to modify: ")
 
-        if TasksMenu.__is_valid_option(task_id, self.tl):
-            print_options_in_dict(modify_options)
+            if TasksMenu.__is_valid_option(task_id, self.tl):
+                print_options_in_dict(modify_options)
 
-            update_choice = input("Choose the task value to update: ")
+                update_choice = input("Choose the task value to update: ")
 
-            if TasksMenu.__is_valid_option(update_choice, modify_actions):
-                try:
-                    new_value = input("Enter the new value: ")
-                    modify_actions[update_choice](task_id, new_value)
-                    print("Task ID '{}' modified successfully.\n".format(task_id))
-                except TaskException as e:
-                    print(e)
+                if TasksMenu.__is_valid_option(update_choice, modify_actions):
+                    try:
+                        new_value = input("Enter the new value: ")
+                        modify_actions[update_choice](task_id, new_value)
+                        print("Task ID '{}' modified successfully.\n".format(task_id))
+                    except TaskException as e:
+                        print(e)
+                else:
+                    print(Fore.RED + "Invalid User Input. Task not updated.\n")
             else:
                 print(Fore.RED + "Invalid User Input. Task not updated.\n")
         else:
-            print(Fore.RED + "Invalid User Input. Task not updated.\n")
+            print(Fore.RED + "No tasks to modify. Task list is empty.\n")
 
     def __update_task_name(self, task_id, task_name):
         """Update the name of the task"""
@@ -86,23 +88,29 @@ class TasksMenu:
         self.tl.modify_task(task_id, task_completion_date=new_date)
 
     def delete_task(self):
-        """Action to delete the task"""
-        highlight_input_option(self.show_task_menu_options["3"])
-        # display all tasks first to show which ones exist.
-        self.tl.print_tasks()
+        """Action to delete the task if task list in not empty"""
+        if self.tl.tasks:
+            highlight_input_option(self.show_task_menu_options["3"])
+            # display all tasks first to show which ones exist.
+            self.tl.print_tasks()
 
-        task_id = input("Enter the task id to delete a particular task: ")
+            task_id = input("Enter the task id to delete a particular task: ")
 
-        self.tl.delete_task(task_id)
-        print("Task ID '{}' deleted successfully.\n".format(task_id))
+            self.tl.delete_task(task_id)
+            print("Task ID '{}' deleted successfully.\n".format(task_id))
+        else:
+            print(Fore.RED + "No tasks to delete. Task list is empty.\n")
 
     def search_task(self):
-        """Action to search the tasks"""
-        highlight_input_option(self.show_task_menu_options["4"])
-        search_string = input("Enter the string to search in tasks: ")
+        """Action to search the tasks if task list in not empty"""
+        if self.tl.tasks:
+            highlight_input_option(self.show_task_menu_options["4"])
+            search_string = input("Enter the string to search in tasks: ")
 
-        searched_tasks = self.tl.search(search_string)
-        self.tl.print_tasks(searched_tasks)
+            searched_tasks = self.tl.search(search_string)
+            self.tl.print_tasks(searched_tasks)
+        else:
+            print(Fore.RED + "No tasks to search. Task list is empty.\n")
 
     def print_tasks(self):
         """Prints all the tasks in the task list"""
@@ -117,7 +125,7 @@ class TasksMenu:
         if isinstance(options, dict):
             valid_options = options.keys()
         elif isinstance(options, TaskList):
-            valid_options = [str(task.task_id) for task in options.task_list]
+            valid_options = [str(task.task_id) for task in options.tasks]
         else:
             valid_options = None
 

@@ -5,11 +5,11 @@ from exceptions import InvalidStatusError, InvalidDateError, InvalidTaskError
 class TaskList:
     """Creates, deletes, modifies and keeps track of user tasks in a list."""
     def __init__(self):
-        self.task_list = []
+        self.tasks = []
 
     def create_task(self, task_name, days_to_complete):
         """Create a new task with name and number of days to complete."""
-        self.task_list.append(ToDoTask(task_name, days_to_complete))
+        self.tasks.append(ToDoTask(task_name, days_to_complete))
 
     def modify_task(self, task_id, task_name=None, task_status=None, task_completion_date=None):
         """Modify and existing task."""
@@ -35,13 +35,13 @@ class TaskList:
 
     def delete_task(self, task_id):
         """Delete and existing task"""
-        self.task_list.remove(self.__find_task(task_id))
+        self.tasks.remove(self.__find_task(task_id))
 
     def __find_task(self, task_id):
         """Find a task based on id"""
         return_task = None
 
-        for task in self.task_list:
+        for task in self.tasks:
             if str(task_id) == str(task.task_id):
                 return_task = task
                 break
@@ -52,13 +52,13 @@ class TaskList:
 
     def search(self, filter_str):
         """Search the task in task list using input filter"""
-        tasks = [task for task in self.task_list if task.match(filter_str)]
+        tasks = [task for task in self.tasks if task.match(filter_str)]
         return tasks
 
     def print_tasks(self, tasks=None):
         """Prints all tasks on the screen."""
         if tasks is None:
-            tasks_to_print = self.task_list
+            tasks_to_print = self.tasks
         else:
             tasks_to_print = tasks
 
