@@ -1,5 +1,5 @@
 from datetime import datetime, date, timedelta
-from status import Status
+from .status import Status
 from exceptions import InvalidStatusError, InvalidDateError
 
 

@@ -1,6 +1,7 @@
 from tasks.task_list import TaskList
 from common import print_options_in_dict, highlight_input_option
 from colorama import Fore
+from exceptions import TaskException
 
 
 class TasksMenu:
@@ -33,7 +34,7 @@ class TasksMenu:
         days_to_complete = input("Enter number of days to complete: ")
 
         self.tl.create_task(task_name, days_to_complete)
-        print("A task '{}' has been created and added to TO-Do list.\n".format(task_name))
+        print("A task '{}' has been created and added to To-Do list.\n".format(task_name))
 
     def modify_task(self):
         """Action to modify the task"""
@@ -55,20 +56,22 @@ class TasksMenu:
 
         task_id = input("Enter the task id to modify: ")
 
-        # Todo check if task id is valid
+        if TasksMenu.__is_valid_option(task_id, self.tl):
+            print_options_in_dict(modify_options)
 
-        print_options_in_dict(modify_options)
+            update_choice = input("Choose the task value to update: ")
 
-        update_choice = input("Choose the task value to update: ")
-
-        if update_choice in modify_actions.keys():
-            new_value = input("Enter the new value: ")
-            modify_actions[update_choice](task_id, new_value)
+            if TasksMenu.__is_valid_option(update_choice, modify_actions):
+                try:
+                    new_value = input("Enter the new value: ")
+                    modify_actions[update_choice](task_id, new_value)
+                    print("Task ID '{}' modified successfully.\n".format(task_id))
+                except TaskException as e:
+                    print(e)
+            else:
+                print(Fore.RED + "Invalid User Input. Task not updated.\n")
         else:
-            # Todo if update choice is not valid
-            pass
-
-        print("Task ID '{}' modified successfully.\n".format(task_id))
+            print(Fore.RED + "Invalid User Input. Task not updated.\n")
 
     def __update_task_name(self, task_id, task_name):
         """Update the name of the task"""
@@ -79,11 +82,7 @@ class TasksMenu:
         self.tl.modify_task(task_id, task_status=task_status)
 
     def __update_task_completion_date(self, task_id, new_date):
-        """
-        Update the task completion date
-        @param task_id: the unique id of the task
-        @param new_date: the new date of the task
-        """
+        """Update the task completion date"""
         self.tl.modify_task(task_id, task_completion_date=new_date)
 
     def delete_task(self):
@@ -110,8 +109,25 @@ class TasksMenu:
         highlight_input_option(self.show_task_menu_options["5"])
         self.tl.print_tasks()
 
+    @staticmethod
+    def __is_valid_option(user_input, options):
+        """
+        Returns True or False,  if the user input option exists
+        """
+        if isinstance(options, dict):
+            valid_options = options.keys()
+        elif isinstance(options, TaskList):
+            valid_options = [str(task.task_id) for task in options.task_list]
+        else:
+            valid_options = None
+
+        if user_input in valid_options:
+            return True
+        else:
+            return False
+
     def run(self):
-        """RUns the app until user chooses to quit."""
+        """Runs the app until user chooses to quit."""
         print("\nWelcome to To-Do List. Follow the menu options to navigate.\n")
         while True:
             print("********* Menu *********")
@@ -121,7 +137,7 @@ class TasksMenu:
             if choice == '6':
                 print("Logging off... Bye.")
                 break
-            elif choice in self.task_menu_options.keys():
+            elif TasksMenu.__is_valid_option(choice, self.task_menu_options):
                 self.task_menu_options[choice]()
             else:
                 print(Fore.RED + "Invalid option\n")
