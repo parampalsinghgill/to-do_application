@@ -55,8 +55,14 @@ class ToDoTask:
     @completion_date.setter
     def completion_date(self, val):
         try:
-            self.__completion_date = datetime.strptime(val, '%Y%m%d')
-        except TypeError:
+            entered_date = datetime.strptime(val, '%Y%m%d')
+            today = datetime.now()
+
+            if entered_date > today:
+                self.__completion_date = datetime.strptime(val, '%Y%m%d')
+            else:
+                raise InvalidDateError("Completion date must be greater then today's date.")
+        except ValueError:
             raise InvalidDateError("Completion date for ", self.__id, " was not updated due to invalid format.")
 
     @property
@@ -68,7 +74,7 @@ class ToDoTask:
     def status(self, val):
         valid_values = [item.value for item in Status.get_class_attribute_list()]
 
-        if val in valid_values:
+        if int(val) in valid_values:
             self.__status = Status.get_member(val)
         else:
             raise InvalidStatusError("Status for ", self.__id, " was not updated due to invalid status.")

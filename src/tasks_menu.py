@@ -63,7 +63,8 @@ class TasksMenu:
 
                 if TasksMenu.__is_valid_option(update_choice, modify_actions):
                     try:
-                        new_value = input("Enter the new value: ")
+                        accepted_format = self.__get_format_hint(update_choice)
+                        new_value = input("Enter the new value {}: ".format(accepted_format))
                         modify_actions[update_choice](task_id, new_value)
                         print("Task ID '{}' modified successfully.\n".format(task_id))
                     except TaskException as e:
@@ -75,17 +76,33 @@ class TasksMenu:
         else:
             print(Fore.RED + "No tasks to modify. Task list is empty.\n")
 
+    @staticmethod
+    def __get_format_hint(choice):
+        """Return the accepted format based on choices"""
+        switcher = {
+            "a": "basic string input",
+            "b": "new=0; in_progress=1; done=2",
+            "c": "YYYYMMDD"
+        }
+        return switcher.get(choice)
+
     def __update_task_name(self, task_id, task_name):
         """Update the name of the task"""
         self.tl.modify_task(task_id, task_name=task_name)
 
     def __update_task_status(self, task_id, task_status):
         """Update the status of the task"""
-        self.tl.modify_task(task_id, task_status=task_status)
+        try:
+            self.tl.modify_task(task_id, task_status=task_status)
+        except TaskException as e:
+            print(e)
 
     def __update_task_completion_date(self, task_id, new_date):
         """Update the task completion date"""
-        self.tl.modify_task(task_id, task_completion_date=new_date)
+        try:
+            self.tl.modify_task(task_id, task_completion_date=new_date)
+        except TaskException as e:
+            print(e)
 
     def delete_task(self):
         """Action to delete the task if task list in not empty"""

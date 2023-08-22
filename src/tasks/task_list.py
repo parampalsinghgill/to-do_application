@@ -29,7 +29,7 @@ class TaskList:
 
         if task_completion_date is not None:
             try:
-                self.__find_task(task_id).completion_date = task_completion_date
+                task.completion_date = task_completion_date
             except InvalidDateError as e:
                 raise e
 
@@ -96,13 +96,13 @@ if __name__ == "__main__":
     # print("Print tasks 2:")
     # tl.print_tasks()
 
-    # modify tasks
-    tl.modify_task(1, "work smart and hard")
-    tl.print_tasks()
+    # # modify tasks
+    # tl.modify_task(1, "work smart and hard")
+    # tl.print_tasks()
 
     tl.modify_task(1, task_status=1)
     tl.print_tasks()
 
-    tl.modify_task(1, task_completion_date="")
+    tl.modify_task(1, task_completion_date="20240512")
     tl.print_tasks()
 

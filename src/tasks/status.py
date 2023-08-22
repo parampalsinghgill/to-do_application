@@ -8,7 +8,7 @@ named_tuple = namedtuple("Status", "value name")
 class Status(named_tuple):
     """Manage the status of the task object"""
     NEW = named_tuple(0, "new")
-    IN_PROGRESS = named_tuple(1, "in progress")
+    IN_PROGRESS = named_tuple(1, "in_progress")
     DONE = named_tuple(2, "done")
 
     @classmethod
