@@ -1,4 +1,4 @@
-from .to_do_task import ToDoTask
+from task.to_do_task import ToDoTask
 from exceptions import InvalidStatusError, InvalidDateError, InvalidTaskError
 
 
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # tl.modify_task(1, "work smart and hard")
     # tl.print_tasks()
 
-    tl.modify_task(1, task_status=1)
+    tl.modify_task(1, task_status='in_progress')
     tl.print_tasks()
 
     tl.modify_task(1, task_completion_date="20240512")

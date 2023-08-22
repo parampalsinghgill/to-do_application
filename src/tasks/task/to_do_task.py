@@ -72,9 +72,9 @@ class ToDoTask:
 
     @status.setter
     def status(self, val):
-        valid_values = [item.value for item in Status.get_class_attribute_list()]
+        member = Status.get_member(val)
 
-        if int(val) in valid_values:
-            self.__status = Status.get_member(val)
-        else:
+        if member is None:
             raise InvalidStatusError("Status for ", self.__id, " was not updated due to invalid status.")
+        else:
+            self.__status = Status.get_member(val)

@@ -35,7 +35,7 @@ class Status(named_tuple):
         attributes = cls.get_class_attribute_list()
         return_value = None
         for item in attributes:
-            if val == item.name or val == item.value:
+            if val == item.name or val == str(item.value):
                 return_value = item
                 break
 
