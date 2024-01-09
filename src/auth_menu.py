@@ -13,7 +13,7 @@ class AuthMenu:
     """Menu to interact with auth module"""
 
     def __init__(self):
-        """Initializes AithMenu with instance variables"""
+        """Initializes AuthMenu with instance variables"""
         self.auth_menu_options = {
             "1": self.login,
             "2": self.signup,

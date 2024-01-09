@@ -17,7 +17,7 @@ class TaskList:
         task = self.__find_task(task_id).task_name = task_name
 
         if task is None:
-            raise InvalidTaskError("Task not sound in the task list.")
+            raise InvalidTaskError("Task not found in the task list.")
 
         if task_name is not None:
             task.task_name = task_name

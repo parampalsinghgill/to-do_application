@@ -1,6 +1,7 @@
 from tasks.task_list import TaskList
 from common import print_options_in_dict, highlight_input_option
 from colorama import Fore
+from exceptions import TaskException
 
 
 class TasksMenu:
@@ -61,7 +62,10 @@ class TasksMenu:
 
         if update_choice in modify_actions.keys():
             new_value = input("Enter the new value: ")
-            modify_actions[update_choice](task_id, new_value)
+            try:
+                modify_actions[update_choice](task_id, new_value)
+            except TaskException as ex:
+                print(Fore.RED + str(ex))
 
         print("Task ID '{}' modified successfully.\n".format(task_id))
 
