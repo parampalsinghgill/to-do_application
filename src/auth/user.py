@@ -5,6 +5,7 @@ from tasks import TaskList
 
 user_id = 1
 
+
 class User:
     """Creates a user account"""
     __length_of_username = 3

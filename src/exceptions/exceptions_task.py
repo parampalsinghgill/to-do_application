@@ -15,5 +15,3 @@ class InvalidDateError(TaskException):
 class InvalidTaskError(TaskException):
     """Exception if the task is not found"""
     pass
-
-

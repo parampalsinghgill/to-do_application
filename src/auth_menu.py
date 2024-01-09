@@ -69,7 +69,7 @@ class AuthMenu:
 
     @staticmethod
     def __ask_for_email():
-        """Ask email from the user"""
+        """Asks email from the user"""
         email = input("Please provide an email address: ")
         return email
 
