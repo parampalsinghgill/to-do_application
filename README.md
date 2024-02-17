@@ -1,5 +1,10 @@
 # to-do_application
-Working to-do custom application. Run menu.py for the commandline options tool.
 
-To Do:
-Add an option to update the completion date of the tasks.
+# creating venv
+1. Open terminal of command line to create a venv: 
+	python -m venv venv
+2. Activate the created venv
+	venv\Scripts\activate
+3. Install the required packages in requirements.txt
+	pip install -r requirements.txt
+

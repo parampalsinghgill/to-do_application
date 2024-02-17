@@ -1,15 +1,9 @@
 from datetime import datetime, date, timedelta
-from enum import Enum
+from .status import Status
 from exceptions import InvalidStatusError, InvalidDateError
 
+
 task_id = 0
-
-
-class Status(Enum):
-    """Manage the status of the task object"""
-    NEW = 0
-    IN_PROGRESS = 1
-    DONE = 2
 
 
 class ToDoTask:
@@ -61,8 +55,14 @@ class ToDoTask:
     @completion_date.setter
     def completion_date(self, val):
         try:
-            self.__completion_date = datetime.strptime(val, '%Y%m%d')
-        except TypeError:
+            entered_date = datetime.strptime(val, '%Y%m%d')
+            today = datetime.now()
+
+            if entered_date > today:
+                self.__completion_date = datetime.strptime(val, '%Y%m%d')
+            else:
+                raise InvalidDateError("Completion date must be greater then today's date.")
+        except ValueError:
             raise InvalidDateError("Completion date for ", self.__id, " was not updated due to invalid format.")
 
     @property
@@ -72,9 +72,9 @@ class ToDoTask:
 
     @status.setter
     def status(self, val):
-        valid_values = [item.value for item in Status]
+        member = Status.get_member(val)
 
-        if val in valid_values:
-            self.status = val
-        else:
+        if member is None:
             raise InvalidStatusError("Status for ", self.__id, " was not updated due to invalid status.")
+        else:
+            self.__status = Status.get_member(val)

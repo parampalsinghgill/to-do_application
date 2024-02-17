@@ -13,7 +13,7 @@ class AuthMenu:
     """Menu to interact with auth module"""
 
     def __init__(self):
-        """Initializes AithMenu with instance variables"""
+        """Initializes AuthMenu with instance variables"""
         self.auth_menu_options = {
             "1": self.login,
             "2": self.signup,
@@ -69,7 +69,7 @@ class AuthMenu:
 
     @staticmethod
     def __ask_for_email():
-        """Ask email from the user"""
+        """Asks email from the user"""
         email = input("Please provide an email address: ")
         return email
 
